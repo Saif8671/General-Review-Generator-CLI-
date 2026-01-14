@@ -1,49 +1,39 @@
 from templates import get_base_sentence, get_detail_sentence
-from keyword_extractor import extract_keywords
-from sentiment_detector import detect_sentiment
+from nlp_keywords import extract_keywords_nlp
+from nlp_sentiment import detect_sentiment_nlp
 from datetime import datetime
 
 REVIEW_FILE = "reviews.txt"
 
-def save_review(topic, sentiment, length_label, review):
+def save_review(topic, sentiment, length, review, confidence):
     with open(REVIEW_FILE, "a", encoding="utf-8") as f:
-        f.write("=" * 50 + "\n")
+        f.write("=" * 60 + "\n")
         f.write(f"Time      : {datetime.now()}\n")
         f.write(f"Topic     : {topic}\n")
         f.write(f"Sentiment : {sentiment.capitalize()}\n")
-        f.write(f"Length    : {length_label}\n\n")
+        f.write(f"Confidence: {confidence}\n")
+        f.write(f"Length    : {length}\n\n")
         f.write(review + "\n\n")
 
 def main():
-    print("=== General Review Generator (CLI) ===")
+    print("=== NLP-Based Review Generator (CLI) ===")
 
     topic = input("Enter the topic to review: ").strip()
     if not topic:
-        print("Error: Topic cannot be empty.")
+        print("Topic cannot be empty.")
         return
 
-    raw_text = input("Enter your experience/description: ").strip()
-    keywords = extract_keywords(raw_text)
+    text = input("Describe your experience: ").strip()
 
-    auto_sentiment = detect_sentiment(raw_text)
-    print(f"\nAuto-detected sentiment: {auto_sentiment.capitalize()}")
+    keywords = extract_keywords_nlp(text)
+    sentiment, scores = detect_sentiment_nlp(text)
 
-    use_auto = input("Use auto-detected sentiment? (y/n): ").strip().lower()
-    if use_auto == "y":
-        sentiment = auto_sentiment
-    else:
-        print("\nChoose sentiment manually:")
-        print("1. Positive\n2. Neutral\n3. Negative")
-        choice = input("Enter choice (1/2/3): ").strip()
-        sentiment_map = {"1": "positive", "2": "neutral", "3": "negative"}
-        sentiment = sentiment_map.get(choice)
-        if not sentiment:
-            print("Invalid sentiment choice.")
-            return
+    print(f"\nDetected sentiment: {sentiment.capitalize()}")
+    print(f"Sentiment confidence (compound score): {scores['compound']}")
 
     print("\nChoose review length:")
     print("1. Short\n2. Medium\n3. Long")
-    length_choice = input("Enter choice (1/2/3): ").strip()
+    length_choice = input("Enter choice: ").strip()
 
     length_map = {
         "1": ("Short", 1),
@@ -52,7 +42,7 @@ def main():
     }
 
     if length_choice not in length_map:
-        print("Invalid length choice.")
+        print("Invalid choice.")
         return
 
     length_label, detail_count = length_map[length_choice]
@@ -66,8 +56,8 @@ def main():
     print("\n--- Generated Review ---")
     print(review)
 
-    save_review(topic, sentiment, length_label, review)
-    print("\nReview saved to reviews.txt")
+    save_review(topic, sentiment, length_label, review, scores["compound"])
+    print("\nReview saved successfully.")
 
 if __name__ == "__main__":
     main()

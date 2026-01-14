@@ -20,3 +20,21 @@ The handling of good, food, mandi could be improved.
  Key aspects like good, food, mandi stand out.
   There is noticeable room for improvement in good, food, mandi.
 
+============================================================
+Time      : 2026-01-14 14:22:48.325498
+Topic     : ai workshop
+Sentiment : Positive
+Confidence: 0.9153
+Length    : Medium
+
+Overall, my experience with ai workshop has been excellent. Key aspects like good, experience, grat stand out. Overall usability around good, experience, grat varies. Overall usability around good, experience, grat varies.
+
+============================================================
+Time      : 2026-01-14 14:23:49.187095
+Topic     : resturant '
+Sentiment : Negative
+Confidence: -0.8885
+Length    : Long
+
+My experience with resturant ' was disappointing. It performs well in areas such as bad, behaviour, food. Overall usability around bad, behaviour, food varies. Overall usability around bad, behaviour, food varies. Overall usability around bad, behaviour, food varies. There is noticeable room for improvement in bad, behaviour, food.
+
