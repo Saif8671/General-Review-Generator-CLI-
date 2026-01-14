@@ -1,0 +1,22 @@
+==================================================
+Time      : 2026-01-14 11:32:10.552341
+Topic     : Online learning platforms
+Sentiment : Positive
+Length    : Long
+
+Overall, my experience with Online learning platforms has been excellent.
+It performs well in areas such as flexible, courses, tracking.
+Key aspects like flexible, courses, tracking stand out.
+Overall usability around flexible, courses, tracking varies.
+There is noticeable room for improvement in flexible, courses, tracking.
+==================================================
+Time      : 2026-01-14 13:19:22.119941
+Topic     : azeebo resturant
+Sentiment : Positive
+Length    : Medium
+
+Overall, my experience with azeebo resturant has been excellent. 
+The handling of good, food, mandi could be improved.
+ Key aspects like good, food, mandi stand out.
+  There is noticeable room for improvement in good, food, mandi.
+
