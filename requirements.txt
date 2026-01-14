@@ -1,2 +1,5 @@
 # No external dependencies required
-pip install nltk scikit-learn
+transformers
+torch
+nltk
+scikit-learn

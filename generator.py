@@ -1,62 +1,59 @@
-from templates import get_base_sentence, get_detail_sentence
 from nlp_keywords import extract_keywords_nlp
 from nlp_sentiment import detect_sentiment_nlp
+from ai_generator import generate_review
 from datetime import datetime
 
 REVIEW_FILE = "reviews.txt"
 
-def save_review(topic, sentiment, length, review, confidence):
+def save_review(review):
     with open(REVIEW_FILE, "a", encoding="utf-8") as f:
         f.write("=" * 60 + "\n")
-        f.write(f"Time      : {datetime.now()}\n")
-        f.write(f"Topic     : {topic}\n")
-        f.write(f"Sentiment : {sentiment.capitalize()}\n")
-        f.write(f"Confidence: {confidence}\n")
-        f.write(f"Length    : {length}\n\n")
+        f.write(f"{datetime.now()}\n")
         f.write(review + "\n\n")
 
+def build_prompt(topic, sentiment, keywords, length):
+    return (
+        f"Write a {sentiment} review about {topic}. "
+        f"Focus on the following aspects: {', '.join(keywords)}. "
+        f"The review should be {length} and realistic.\n\nReview:"
+    )
+
 def main():
-    print("=== NLP-Based Review Generator (CLI) ===")
+    print("=== Hybrid NLP + AI Review Generator ===")
 
-    topic = input("Enter the topic to review: ").strip()
-    if not topic:
-        print("Topic cannot be empty.")
-        return
-
+    topic = input("Enter topic: ").strip()
     text = input("Describe your experience: ").strip()
 
     keywords = extract_keywords_nlp(text)
-    sentiment, scores = detect_sentiment_nlp(text)
+    sentiment, _ = detect_sentiment_nlp(text)
 
-    print(f"\nDetected sentiment: {sentiment.capitalize()}")
-    print(f"Sentiment confidence (compound score): {scores['compound']}")
+    print(f"\nDetected sentiment: {sentiment}")
+    print(f"Extracted keywords: {keywords}")
 
-    print("\nChoose review length:")
+    print("\nChoose length:")
     print("1. Short\n2. Medium\n3. Long")
-    length_choice = input("Enter choice: ").strip()
+    choice = input("Enter choice: ").strip()
 
     length_map = {
-        "1": ("Short", 1),
-        "2": ("Medium", 3),
-        "3": ("Long", 5)
+        "1": ("short", 80),
+        "2": ("medium", 150),
+        "3": ("long", 250)
     }
 
-    if length_choice not in length_map:
+    if choice not in length_map:
         print("Invalid choice.")
         return
 
-    length_label, detail_count = length_map[length_choice]
+    length_label, max_len = length_map[choice]
 
-    sentences = [get_base_sentence(sentiment, topic)]
-    for _ in range(detail_count):
-        sentences.append(get_detail_sentence(keywords))
+    prompt = build_prompt(topic, sentiment, keywords, length_label)
 
-    review = " ".join(sentences)
+    review = generate_review(prompt, max_len)
 
     print("\n--- Generated Review ---")
     print(review)
 
-    save_review(topic, sentiment, length_label, review, scores["compound"])
+    save_review(review)
     print("\nReview saved successfully.")
 
 if __name__ == "__main__":

@@ -1,4 +1,17 @@
 import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+nltk.download("punkt")
+nltk.download("stopwords")
+
+def extract_keywords(text):
+    tokens = word_tokenize(text.lower())
+    stop_words = set(stopwords.words("english"))
+    keywords = [w for w in tokens if w.isalpha() and w not in stop_words]
+    return list(set(keywords))[:5]
+
 
 STOPWORDS = {
     "the", "is", "and", "a", "an", "to", "of", "in", "on", "for",
