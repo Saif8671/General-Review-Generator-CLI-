@@ -38,3 +38,30 @@ Length    : Long
 
 My experience with resturant ' was disappointing. It performs well in areas such as bad, behaviour, food. Overall usability around bad, behaviour, food varies. Overall usability around bad, behaviour, food varies. Overall usability around bad, behaviour, food varies. There is noticeable room for improvement in bad, behaviour, food.
 
+============================================================
+Time      : 2026-01-14 14:35:32.514970
+Topic     : food
+Sentiment : Negative
+Confidence: -0.5423
+Length    : Long
+
+food did not meet my expectations. There is noticeable room for improvement in bad. Overall usability around bad varies. It performs well in areas such as bad. It performs well in areas such as bad. Key aspects like bad stand out.
+
+============================================================
+Time      : 2026-01-14 15:18:04.786790
+Topic     : tour service
+Sentiment : Positive
+Confidence: 0.8591
+Length    : Medium
+
+I am very satisfied with tour service. It performs well in areas such as affodable, fast, great. Key aspects like affodable, fast, great stand out. Key aspects like affodable, fast, great stand out.
+
+============================================================
+Time      : 2026-01-14 15:22:14.259348
+Topic     : hraphic designe service
+Sentiment : Positive
+Confidence: 0.6249
+Length    : Long
+
+Overall, my experience with hraphic designe service has been excellent. The handling of great, offered, service could be improved. It performs well in areas such as great, offered, service. It performs well in areas such as great, offered, service. Key aspects like great, offered, service stand out. It performs well in areas such as great, offered, service.
+
