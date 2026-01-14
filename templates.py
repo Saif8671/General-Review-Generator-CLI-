@@ -1,40 +1,41 @@
 import random
 
 POSITIVE_TEMPLATES = [
-    "Overall, my experience with {topic} has been excellent. {detail} I would definitely recommend it.",
-    "{topic} exceeded my expectations. {detail} The overall quality is impressive.",
-    "I am very satisfied with {topic}. {detail} It delivers great value."
+    "Overall, my experience with {topic} has been excellent.",
+    "{topic} exceeded my expectations.",
+    "I am very satisfied with {topic}."
 ]
 
 NEUTRAL_TEMPLATES = [
-    "My experience with {topic} has been average. {detail} It works as expected, but nothing exceptional.",
-    "{topic} offers a standard experience. {detail} There are both pros and cons.",
-    "Using {topic} was neither particularly good nor bad. {detail} It meets basic requirements."
+    "My experience with {topic} has been average.",
+    "{topic} offers a fairly standard experience.",
+    "Using {topic} felt acceptable overall."
 ]
 
 NEGATIVE_TEMPLATES = [
-    "My experience with {topic} was disappointing. {detail} I expected better performance.",
-    "{topic} did not meet my expectations. {detail} There are several areas that need improvement.",
-    "I was not satisfied with {topic}. {detail} The overall experience was below average."
+    "My experience with {topic} was disappointing.",
+    "{topic} did not meet my expectations.",
+    "I was not satisfied with {topic}."
 ]
 
 DETAIL_PHRASES = [
-    "The functionality is straightforward.",
-    "The design could be improved.",
-    "Performance was inconsistent at times.",
-    "The concept is good, but execution needs work.",
-    "Ease of use varies depending on the situation."
+    "It performs well in areas such as {keywords}.",
+    "Key aspects like {keywords} stand out.",
+    "The handling of {keywords} could be improved.",
+    "There is noticeable room for improvement in {keywords}.",
+    "Overall usability around {keywords} varies."
 ]
 
-def get_template(sentiment):
+def get_base_sentence(sentiment, topic):
     if sentiment == "positive":
-        return random.choice(POSITIVE_TEMPLATES)
+        return random.choice(POSITIVE_TEMPLATES).format(topic=topic)
     elif sentiment == "neutral":
-        return random.choice(NEUTRAL_TEMPLATES)
+        return random.choice(NEUTRAL_TEMPLATES).format(topic=topic)
     elif sentiment == "negative":
-        return random.choice(NEGATIVE_TEMPLATES)
+        return random.choice(NEGATIVE_TEMPLATES).format(topic=topic)
     else:
-        raise ValueError("Invalid sentiment type")
+        raise ValueError("Invalid sentiment")
 
-def get_detail():
-    return random.choice(DETAIL_PHRASES)
+def get_detail_sentence(keywords):
+    joined_keywords = ", ".join(keywords) if keywords else "various aspects"
+    return random.choice(DETAIL_PHRASES).format(keywords=joined_keywords)
