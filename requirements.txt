@@ -3,3 +3,10 @@ transformers
 torch
 nltk
 scikit-learn
+flask
+flask-cors
+transformers
+torch
+nltk
+scikit-learn
+textblob

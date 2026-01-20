@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Review Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Review Generator</h1>
+            <p class="subtitle">Create personalized reviews in seconds</p>
+        </header>
+        
+        <div class="content">
+            <div class="input-group">
+                <label for="productType">Category</label>
+                <select id="productType">
+                    <option value="">Select category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="books">Books</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="home">Home & Kitchen</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="service">Service</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="productName">Product/Service Name</label>
+                <input type="text" id="productName" placeholder="Enter name">
+            </div>
+            
+            <div class="input-group">
+                <label for="reviewDetails">Your Experience</label>
+                <textarea id="reviewDetails" placeholder="Describe your experience..."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="reviewLength">Review Length</label>
+                <select id="reviewLength">
+                    <option value="short">Short (3-4 sentences)</option>
+                    <option value="medium" selected>Medium (5-6 sentences)</option>
+                    <option value="long">Long (8-10 sentences)</option>
+                </select>
+            </div>
+            
+            <button id="generateBtn" class="btn">
+                ✨ Generate Review
+            </button>
+            
+            <div class="output-container">
+                <div class="output-header">
+                    <div class="output-title">Generated Review</div>
+                    <button id="copyBtn" class="btn secondary">
+                        📋 Copy
+                    </button>
+                </div>
+                <pre id="reviewOutput">Your review will appear here...</pre>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div>⚡</div>
+                <h3>AI-Powered</h3>
+                <p>Advanced language models</p>
+            </div>
+            <div class="feature-card">
+                <div>🎯</div>
+                <h3>Smart Analysis</h3>
+                <p>Detects sentiment & keywords</p>
+            </div>
+            <div class="feature-card">
+                <div>🔒</div>
+                <h3>Privacy Focused</h3>
+                <p>Data processed locally</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>AI Review Generator | Powered by FLAN-T5</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', async function() {
+            const productType = document.getElementById('productType').value;
+            const productName = document.getElementById('productName').value;
+            const reviewDetails = document.getElementById('reviewDetails').value;
+            const length = document.getElementById('reviewLength').value;
+            
+            if (!productName.trim()) {
+                alert("Please enter a product/service name");
+                return;
+            }
+            
+            if (!reviewDetails.trim()) {
+                alert("Please describe your experience");
+                return;
+            }
+            
+            const btn = document.getElementById('generateBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Generating...';
+            btn.disabled = true;
+            
+            try {
+                const topic = productType ? `${productType} ${productName}` : productName;
+                
+                const response = await fetch('/api/generate-review', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        topic: topic,
+                        description: reviewDetails,
+                        length: length
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('reviewOutput').textContent = result.review;
+                } else {
+                    throw new Error(result.error || 'Failed to generate review');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('reviewOutput').textContent = 
+                    `Error: ${error.message || 'Server connection failed'}`;
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+        
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const reviewText = document.getElementById('reviewOutput').textContent;
+            if (reviewText && !reviewText.includes('Your review')) {
+                navigator.clipboard.writeText(reviewText).then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
