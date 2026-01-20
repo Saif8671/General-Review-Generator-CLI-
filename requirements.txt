@@ -10,3 +10,4 @@ torch
 nltk
 scikit-learn
 textblob
+gunicorn
